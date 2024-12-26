@@ -11,9 +11,12 @@ import { Server as SocketIOServer } from 'socket.io'; // Importar socket.io
 import { MessageRepository } from './chat/MessageRepository';
 import {ChatRepository} from "./chat/ChatRepository";
 import {reservationRoutes} from "./reservation/ReservationRoutes"; // Repositorio de mensajes
+require('dotenv').config();
 
 const app = express();
-const port = 4000;
+const PORT = process.env.PORT
+const SQL_URL = process.env.SQL_URL
+const ELASTIC_URL = process.env.ELASTIC_URL
 
 // Configurar CORS
 app.use(cors());
@@ -21,7 +24,7 @@ app.use(cors());
 app.use(express.json());
 
 const db = new ConnectionPool(config);
-const client = new Client({node: 'http://194.164.72.178:9200'}); // servidor Joel
+const client = new Client({node: ELASTIC_URL});
 
 // Crear un servidor HTTP a partir de Express
 const server = new HttpServer(app);
@@ -73,8 +76,8 @@ db.connect().then(() => {
     });
 
     // Iniciar el servidor HTTP + WebSocket
-    server.listen(port, () => {
-        console.log(`Server running on port ${port}`);
+    server.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
     });
 
 }).catch((err: any) => {

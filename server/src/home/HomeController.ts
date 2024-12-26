@@ -1,4 +1,3 @@
-// src/controllers/home.controller.ts
 import {Request, Response} from 'express';
 import {HomeRepository} from './HomeRepository';
 import {HomeRepositoryElastic} from "./HomeRepositoryElastic";
@@ -98,11 +97,6 @@ export class HomeController {
     }
 
     async bulkCreateHomes(req: Request, res: Response): Promise<any> {
-        /*const homes: Home[] = req.body;*/
-
-        /*const cities = ["New York", "Barcelona", "Tokyo", "Berlin", "London", "Paris", "Rome", "Los Angeles", "Sydney", "Dubai"];
-        const countries = ["USA", "Spain", "Japan", "Germany", "UK", "France", "Italy", "Australia", "UAE"];*/
-
         const europeanCountries: Country[] = [
             {
                 name: "Spain",
@@ -253,6 +247,7 @@ export class HomeController {
     // end create bulk homes
 
     async searchHomes(req: any, res: any): Promise<any> {
+        const defaultSize = 1000
         try {
             const request = req.body as SearchRequest
             const page: number = request.page
@@ -264,7 +259,7 @@ export class HomeController {
             const featuresList: string[] = request.featuresList
             const amenitiesList: string[] = request.amenitiesList
 
-            const _size: number = size==null ? 1000 : size
+            const _size: number = size == null ? defaultSize : size
             console.log("Page: " + page)
             console.log("Size: " + _size)
             console.log("City: " + city)

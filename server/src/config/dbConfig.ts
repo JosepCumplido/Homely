@@ -1,7 +1,8 @@
+require('dotenv').config();
 export default {
-    user: 'sa',
-    password: 'Password_123#',
-    server: '88.223.95.53',
+    user: process.env.SQL_USER,
+    password: process.env.SQL_PASSWORD,
+    server: 'localhost',
     database: 'sgbd',
     options: {
         encrypt: true,

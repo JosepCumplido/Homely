@@ -154,6 +154,11 @@ export class HomeRepositoryElastic {
 
             let homes: Home[] = []
             if (body as Home[]) homes = body as Home[]
+
+            homes.map((home) => {
+                home.categories = home.categories[0].split(",")
+            })
+
             console.log('Homes search result:', homes);
 
             return new SearchResponse(page, size, homes.length, homes)

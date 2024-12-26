@@ -1,2 +1,10 @@
 /build/
+
+# Frontend
+/client/.env.local
+/client/.next
+/client/node_modules
+
+# Backend
+/server/.env
 /server/node_modules/

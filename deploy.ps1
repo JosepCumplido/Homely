@@ -14,8 +14,8 @@ New-Item -ItemType Directory -Path "$BuildDir/backend" | Out-Null
 # 1. Empaqueta el frontend
 Write-Host "Empaquetant el frontend..."
 
-# Canvia al directori del frontend (client/my-app)
-$FrontendDir = Join-Path $ProjectRoot "client/my-app"
+# Canvia al directori del frontend (client)
+$FrontendDir = Join-Path $ProjectRoot "client"
 Set-Location -Path $FrontendDir
 
 # Instal·la les dependències i genera el build
@@ -59,7 +59,7 @@ Write-Host "Projecte empaquetat a build.tar.gz"
 
 # Configuració del servidor
 $ServerUser = "root"
-$ServerHost = "88.223.95.53"
+$ServerHost = "localhost"
 $DestDir = "/var/www/homely-sgbd"
 
 # 5. Còpia del projecte al servidor

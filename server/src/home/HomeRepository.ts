@@ -23,16 +23,12 @@ export class HomeRepository {
             if (result.recordset.length > 0) {
                 const home = result.recordset[0];
 
-                // Parsejar JSON per a imagesUrls si és una cadena
-                const parseJson = (field: string | null): string[] =>
-                    field ? JSON.parse(field) : [];
-
                 return {
                     ...home,
-                    imagesUrls: parseJson(home.imagesUrls),
-                    features: home.features ? home.features.split(', ') : [],
-                    amenities: home.amenities ? home.amenities.split(', ') : [],
-                    categories: home.categories ? home.categories.split(', ') : [],
+                    imagesUrls: JSON.parse(home.imagesUrls),
+                    features: JSON.parse(home.features),
+                    amenities: JSON.parse(home.amenities),
+                    categories: JSON.parse(home.categories),
                 } as Home;
             } else {
                 return null;
