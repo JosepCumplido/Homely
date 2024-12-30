@@ -212,12 +212,12 @@ export class HomeController {
         function generateRandomHome() {
             const countryIndex = randomInt(0, europeanCountries.length - 1);
             const country = europeanCountries[countryIndex];
-            const city = europeanCountries[countryIndex].cities[randomInt(0, europeanCountries[countryIndex].cities.length-1)];
+            const city = europeanCountries[countryIndex].cities[randomInt(0, europeanCountries[countryIndex].cities.length - 1)];
 
             return {
                 id: null,
                 hostUsername: "josep",
-                imagesUrls: [],
+                imagesUrls: ["post_1_1.webp", "post_1_2.webp", "post_1_3.webp", "post_1_4.webp"],
                 city: city,
                 country: country.name,
                 categories: randomSelection(categories, randomInt(1, 3)),
@@ -229,7 +229,7 @@ export class HomeController {
             };
         }
 
-        const homesNumber = 1
+        const homesNumber = 10
         try {
             const homes: Home[] = []
             for (let i = 0; i < homesNumber; i++) {
@@ -244,6 +244,7 @@ export class HomeController {
             return res.status(500).send('Error creating homes in bulk' + error);
         }
     }
+
     // end create bulk homes
 
     async searchHomes(req: any, res: any): Promise<any> {
@@ -251,7 +252,7 @@ export class HomeController {
         try {
             const request = req.body as SearchRequest
             const page: number = request.page
-            const size: number|null = request.size
+            const size: number | null = request.size
             const city: string | null = request.city
             const guestsNumber: number | undefined = request.guestsNumber
             const category: string | null = request.category

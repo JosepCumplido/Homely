@@ -67,7 +67,7 @@ export function PostCard({home}: { home: Home }) {
                         stroke={"white"}/>
                 )}
             </button>
-            <Link href={`/app/(user)/home/${home.id}`}>
+            <Link href={`/app/(pages)/home/${home.id}`}>
                 <div className={"flex flex-row justify-between"}>
                     <p className={"font-bold"}>{home.city}, {home.country}</p>
                     <span className={"flex flex-row space-x-1 items-center mr-1"}>

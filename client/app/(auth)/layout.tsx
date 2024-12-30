@@ -56,7 +56,7 @@ function MainLayout({children}: { children: React.ReactNode }) {
                     />
                     <h2 className={"text-8xl font-black text-white"}>Find your next dream house</h2>
                 </section>
-                <section className={"flex-none w-1/2 p-56"}>
+                <section className={"flex-none w-1/2 p-[12vw]"}>
                     {children}
                 </section>
             </main>

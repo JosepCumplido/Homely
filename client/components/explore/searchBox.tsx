@@ -1,5 +1,3 @@
-"use client"
-
 import {DatePickerRange} from "@/components/explore/dateRangePicker";
 import {GuestsSelector} from "@/components/explore/guestsSelector";
 import {Separator} from "@/components/ui/separator";
@@ -46,7 +44,7 @@ export function SearchBox({
 }) {
     return (
         <div
-            className={"h-[75px] w-[850px] rounded-full flex flex-row items-center bg-gray-900 absolute bottom-6 left-1/2 transform -translate-x-1/2 shadow-lg"}>
+            className={"h-[75px] w-[850px] rounded-full flex flex-row items-center bg-gray-900 bg-opacity-80 backdrop-blur-sm absolute bottom-6 left-1/2 transform -translate-x-1/2 shadow-lg"}>
             <div className={"flex flex-col space-y-1 w-[28%] px-10"}>
                 <p className={"text-white text-xs"}>Select destination</p>
                 <DropdownSearch selectedCity={city} onCityChange={onCityChange}/>

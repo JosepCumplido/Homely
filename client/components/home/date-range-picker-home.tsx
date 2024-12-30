@@ -12,8 +12,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePickerRange({dateRange, onDateRangeChange}: { dateRange: DateRange, onDateRangeChange: (dateRange: DateRange) => void }) {
-
+export function DateRangePickerHome({dateRange, onDateRangeChange}: { dateRange: DateRange, onDateRangeChange: (dateRange: DateRange) => void }) {
     return (
         <div>
             <div className={"grid gap-2"}>
@@ -22,12 +21,9 @@ export function DatePickerRange({dateRange, onDateRangeChange}: { dateRange: Dat
                         <Button
                             id="date"
                             variant={"default"}
-                            className={cn(
-                                "w-[300px] justify-start text-left font-normal h-6 !bg-transparent !px-0 py-0",
-                                !dateRange && "text-muted-foreground"
-                            )}
+                            className={"w-full text-black border-black border-1 justify-start text-left font-normal h-6 !bg-transparent py-4"}
                         >
-                            <CalendarIcon/>
+                            <CalendarIcon color={"black"}/>
                             {dateRange?.from ? (
                                 dateRange.to ? (
                                     <>

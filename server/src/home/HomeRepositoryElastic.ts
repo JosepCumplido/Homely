@@ -17,6 +17,7 @@ export class HomeRepositoryElastic {
                 query: {match_all: {}}
             });
             const homes = response.hits.hits.map((hit) => hit._source);
+
             console.log('All Homes:', homes);
             return homes;
         } catch (error) {
@@ -97,11 +98,11 @@ export class HomeRepositoryElastic {
         return await this.client.bulk({refresh: true, body});
     }
 
-    async searchHomes(page: number, size: number, city: string|null, guestsNumber: number|undefined, category: string|null, priceRange: number[], featuresList: string[], amenitiesList: string[]) {
+    async searchHomes(page: number, size: number, city: string | null, guestsNumber: number | undefined, category: string | null, priceRange: number[], featuresList: string[], amenitiesList: string[]) {
         try {
             const filters = []
 
-            if (city != null) filters.push({ term: { city } });
+            if (city != null) filters.push({term: {city}});
 
             if (guestsNumber != undefined) {
                 filters.push({
@@ -113,7 +114,7 @@ export class HomeRepositoryElastic {
                 });
             }
 
-            if (category != "all" && category != null) filters.push({ term: { categories: category } });
+            if (category != "all" && category != null) filters.push({term: {categories: category}});
 
             if (priceRange && priceRange.length === 2 && priceRange[0] <= priceRange[1]) {
                 filters.push({
@@ -128,13 +129,13 @@ export class HomeRepositoryElastic {
 
             if (featuresList && featuresList.length > 0) {
                 featuresList.map((feature) => (
-                    filters.push({term:{features: feature}})
+                    filters.push({term: {features: feature}})
                 ))
             }
 
             if (amenitiesList && amenitiesList.length > 0) {
                 amenitiesList.map((amenity) => (
-                    filters.push({term:{amenities: amenity}})
+                    filters.push({term: {amenities: amenity}})
                 ))
             }
 
@@ -153,15 +154,16 @@ export class HomeRepositoryElastic {
             const body = response.hits.hits.map(hit => hit._source);
 
             let homes: Home[] = []
-            if (body as Home[]) homes = body as Home[]
-
-            homes.map((home) => {
-                home.categories = home.categories[0].split(",")
-            })
-
-            console.log('Homes search result:', homes);
-
-            return new SearchResponse(page, size, homes.length, homes)
+            if (body as Home[]) {
+                homes = body as Home[]
+                const parsedHomes = homes.map((home) => ({
+                    ...home,
+                    imagesUrls: JSON.parse(home.imagesUrls as unknown as string),
+                }))
+                console.log('Homes search result:', parsedHomes);
+                return new SearchResponse(page, size, parsedHomes.length, parsedHomes)
+            }
+            new Error("Bad formatting exception. Could not convert to type Home")
         } catch (error) {
             console.error('Error retrieving all homes:', error);
             return [];

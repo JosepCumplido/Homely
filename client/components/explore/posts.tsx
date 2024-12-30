@@ -6,16 +6,9 @@ import React, {useCallback, useEffect, useState} from "react";
 import {SearchRequest} from "shared/data/searchRequest";
 import {Category} from "shared/models/category";
 import {PostsSkeleton} from "@/components/explore/postsSkeleton";
+import {searchHomes} from "@/actions/searchHomes";
 
-export function Posts({
-                          searchCity,
-                          guestsNumber,
-                          searchCategory,
-                          searchPriceRange,
-                          selectedFeaturesList,
-                          selectedAmenitiesList,
-                          onSetSearchResultsNumber
-                      }: {
+export function Posts({searchCity, guestsNumber, searchCategory, searchPriceRange, selectedFeaturesList, selectedAmenitiesList, onSetSearchResultsNumber}: {
     searchCity: string | null,
     guestsNumber: number | undefined,
     searchCategory: Category | null,
@@ -30,47 +23,29 @@ export function Posts({
     const [hasMore, setHasMore] = useState(true);
 
     const limit = 10
-
-    const searchHomes = useCallback(async (isLoadMore: boolean = false) => {
+    const handleSearchHomes = useCallback(async (isLoadMore: boolean = false) => {
         setIsLoading(true);
-
-        // Si és una crida per carregar més, incrementa la pàgina; en cas contrari, reinicia la pàgina a 0
-        const searchPage = isLoadMore ? page + 1 : 0;
-        console.log("Category " + (searchCategory?.name ?? null))
-        const request = new SearchRequest(searchPage, limit, searchCity, guestsNumber, searchCategory?.name ?? null, searchPriceRange, selectedFeaturesList, selectedAmenitiesList)
-
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/home/search`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(request),
-            });
-
-            if (!response.ok) new Error('Network response failed');
-
-            const searchResponse = await response.json();
-            console.log(searchResponse.homes)
-
-            setHomes(prevHomes => (isLoadMore ? [...prevHomes, ...searchResponse.homes] : searchResponse.homes));
-            setPage(searchPage);
-            onSetSearchResultsNumber(searchResponse.homes.length);
-            setHasMore(searchResponse.homes.length > 0);
+            const {homes: newHomes, page: newPage, hasMore} = await searchHomes({isLoadMore, page, limit, searchCity, guestsNumber, searchCategory, searchPriceRange, selectedFeaturesList, selectedAmenitiesList, onSetSearchResultsNumber});
+            setHomes(prevHomes => (isLoadMore ? [...prevHomes, ...newHomes] : newHomes));
+            setPage(newPage);
+            setHasMore(hasMore);
         } catch (error) {
             console.error("Error al cercar cases:", error);
-            setHasMore(false)
+            setHasMore(false);
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }, [page, searchCity, guestsNumber, searchCategory, searchPriceRange, selectedAmenitiesList, selectedFeaturesList]);
+    }, [page, searchCity, guestsNumber, searchCategory, searchPriceRange, selectedFeaturesList, selectedAmenitiesList]);
 
     // Funció per executar la cerca quan els filtres canvien
     useEffect(() => {
         // Si canvia algun filtre, torna a cercar des de la pàgina 0 sense `isLoadMore`
-        searchHomes(false);
+        handleSearchHomes(false);
     }, [searchCity, guestsNumber, searchCategory, searchPriceRange, selectedFeaturesList, selectedAmenitiesList]);
 
     // Funció per executar la cerca quan es vol mostrar mes contingut amb els mateixos filtres
-    const loadMore = () => searchHomes(true);
+    const loadMore = () => handleSearchHomes(true);
 
     return (
         <div className="flex flex-col gap-8">

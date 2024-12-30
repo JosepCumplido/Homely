@@ -11,6 +11,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import Image from "next/image";
 import {DateRange} from "react-day-picker";
 import {addDays} from "date-fns";
+import {getSessionDateRange} from "@/actions/getSessionDateRange";
 
 const iconRoute = "/explore/category-icons"
 const categories: Category[] = [
@@ -126,10 +127,13 @@ const amenityTypes: AmenityType[] = [
 export default function Home() {
     // Search filters
     const [searchCity, setSearchCity] = useState<string | null>(null)
+
+    const sessionDateRange: DateRange = getSessionDateRange()
     const [dateRange, setDate] = React.useState<DateRange>({
-        from: addDays(new Date(), 7),
-        to: addDays(new Date(), 10),
+        from: sessionDateRange.from,
+        to: sessionDateRange.to,
     })
+
     const [guestsNumber, setGuestsNumber] = useState<number>(2)
     const [searchCategory, setSearchCategory] = useState<Category | null>(null)
     const [searchPriceRange, setSearchPriceRange] = useState<number[]>([20, 540])
@@ -217,7 +221,7 @@ export default function Home() {
                         height={1200}
                         alt={"Background image showing a big house"}
                         quality={100}
-                        className={"h-[30vh] w-full"}
+                        className={"h-[20vh] w-full"}
                         style={{objectFit: 'cover'}}
                     />
                     {/* search params */}

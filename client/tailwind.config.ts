@@ -89,7 +89,16 @@ const config: Config = {
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out'
-  		}
+  		},
+		container: {
+			screens: {
+				sm: '100%',
+				md: '768px',
+				lg: '1024px',
+				xl: '1280px',
+				'2xl': '1280px', // Utilitzar el mateix valor que xl per a resolucions grans
+			},
+		}
   	}
   },
   plugins: [/*require(tailwindcss-animate),*/nextui(), require("tailwindcss-animate")],
