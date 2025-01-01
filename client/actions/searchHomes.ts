@@ -34,7 +34,7 @@ export async function searchHomes({isLoadMore, page, limit, searchCity, guestsNu
         return {
             homes: searchResponse.homes,
             page: searchPage,
-            hasMore: searchResponse.homes.length > 0,
+            hasMore: searchResponse.hasMore,
         };
     } catch (error) {
         console.log(`Error searching homes. ${error}`)

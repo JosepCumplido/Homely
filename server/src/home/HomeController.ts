@@ -229,7 +229,7 @@ export class HomeController {
             };
         }
 
-        const homesNumber = 10
+        const homesNumber = 30
         try {
             const homes: Home[] = []
             for (let i = 0; i < homesNumber; i++) {

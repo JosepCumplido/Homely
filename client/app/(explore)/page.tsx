@@ -11,7 +11,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import Image from "next/image";
 import {DateRange} from "react-day-picker";
 import {addDays} from "date-fns";
-import {getSessionDateRange} from "@/actions/getSessionDateRange";
+import {getSessionDateRange, getSessionGuests, setSessionDateRange, setSessionGuests} from "@/actions/sessionStorage";
 
 const iconRoute = "/explore/category-icons"
 const categories: Category[] = [
@@ -91,7 +91,6 @@ const categories: Category[] = [
         icon: <Image src={`${iconRoute}/camping.jpg`} height={24} width={24} alt={"Beach category icon"}/>
     },
 ]
-
 const featureTypes: FeatureType[] = [
     {
         label: "Kitchen",
@@ -107,7 +106,6 @@ const featureTypes: FeatureType[] = [
         features: ["TV", "Dedicated workspace", "Hardwood flooring", "Carpet flooring", "Balcony", "Terrace", "Private garden"]
     },
 ]
-
 const amenityTypes: AmenityType[] = [
     {label: "Comfort", amenities: ["Air conditioning", "Heating", "Soundproofing", "Fireplace"]},
     {
@@ -134,7 +132,8 @@ export default function Home() {
         to: sessionDateRange.to,
     })
 
-    const [guestsNumber, setGuestsNumber] = useState<number>(2)
+    const sessionGuestsNumber: number = getSessionGuests()
+    const [guestsNumber, setGuestsNumber] = useState<number>(sessionGuestsNumber)
     const [searchCategory, setSearchCategory] = useState<Category | null>(null)
     const [searchPriceRange, setSearchPriceRange] = useState<number[]>([20, 540])
     const [selectedFeaturesList, setSelectedFeaturesList] = useState<string[]>([]);
@@ -143,8 +142,8 @@ export default function Home() {
     const [appliedFiltersNumber, setAppliedFiltersNumber] = useState(0)
 
     if (typeof window !== "undefined") {
-        sessionStorage.setItem("dateRange", JSON.stringify(dateRange))
-        sessionStorage.setItem("guests", JSON.stringify(guestsNumber))
+        setSessionDateRange(dateRange)
+        setSessionGuests(guestsNumber)
     }
 
     const onCityChange = useCallback((city: string) => {
@@ -155,14 +154,14 @@ export default function Home() {
         setDate(dateRange)
         console.log(dateRange)
         if (typeof window !== "undefined") {
-            sessionStorage.setItem("dateRange", JSON.stringify(dateRange))
+            setSessionDateRange(dateRange)
         }
     }, [])
 
     const onGuestsNumberChange = useCallback((guests: number) => {
         setGuestsNumber(guests)
         if (typeof window !== "undefined") {
-            sessionStorage.setItem("guests", JSON.stringify(guests))
+            setSessionGuests(guestsNumber)
         }
     }, [])
 

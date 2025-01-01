@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {Home} from "shared/models/home";
 import {DateRange} from "react-day-picker";
 import {differenceInDays} from "date-fns";
-import {getSessionDateRange} from "@/actions/getSessionDateRange";
+import {getSessionDateRange, getSessionGuests, setSessionDateRange, setSessionGuests} from "@/actions/sessionStorage";
 import {DateRangePickerHome} from "@/components/home/date-range-picker-home";
 import {GuestsSelectorHome} from "@/components/home/guests-selector-home";
 
@@ -19,23 +19,28 @@ export function BookingDetails({home}: { home: Home }) {
         from: sessionDateRange.from,
         to: sessionDateRange.to,
     })
-
     const onDateRangeChange = useCallback((_dateRange: DateRange) => {
         setDate(_dateRange)
         console.log(_dateRange)
         if (typeof window !== "undefined") {
-            sessionStorage.setItem("dateRange", JSON.stringify(_dateRange))
+            setSessionDateRange(_dateRange)
         }
     }, [])
 
-    const guests: number = parseInt(sessionStorage.getItem("guests"))
+    const sessionGuests: number = getSessionGuests()
+    const [guests, setGuests] = useState<number>(sessionGuests)
+    const onGuestsChange = useCallback((_guests: number) => {
+        setGuests(_guests)
+        if (typeof window !== "undefined") {
+            setSessionGuests(_guests)
+        }
+    }, [])
 
     let totalNights: number
     try {
         totalNights = differenceInDays(dateRange.to, dateRange.from)
         if (isNaN(totalNights)) totalNights = 0
     } catch {
-        console.log(`Cannot calculate nights: ${JSON.stringify(dateRange)}`)
         totalNights = 0
     }
 
@@ -64,14 +69,11 @@ export function BookingDetails({home}: { home: Home }) {
                         </p>
                     </div>
                     <DateRangePickerHome dateRange={dateRange} onDateRangeChange={onDateRangeChange}/>
-                    <GuestsSelectorHome maxGuests={home.maxGuests}/>
+                    <GuestsSelectorHome guests={guests} maxGuests={home.maxGuests} onGuestsChange={onGuestsChange}/>
                     <div className="flex-col items-stretch">
-                        {/*<Link href={`/chat?chat=${home.hostUsername}`} className="w-full">
-                            <Button variant="outline" className="w-full mb-4">Message host</Button>
-                        </Link>*/}
                         <Button className="w-full" disabled={!canReserve}>
                             <Link
-                                href={`/reservation?home=${home.id}`}
+                                href={`/reservation/${home.id}`}
                                 className={!canReserve ? 'disabled' : ''}
                                 aria-disabled={!canReserve}
                                 tabIndex={!canReserve ? -1 : undefined}

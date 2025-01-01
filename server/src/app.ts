@@ -15,23 +15,19 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT
-const SQL_URL = process.env.SQL_URL
 const ELASTIC_URL = process.env.ELASTIC_URL
 
-// Configurar CORS
 app.use(cors());
-
 app.use(express.json());
 
 const db = new ConnectionPool(config);
 const client = new Client({node: ELASTIC_URL});
 
-// Crear un servidor HTTP a partir de Express
 const server = new HttpServer(app);
-// Crear el servidor de WebSockets con Socket.IO
+
+// Crear el servidor de WebSockets amb Socket.IO (xats)
 const io = new SocketIOServer(server);
 
-// Conexión a la base de datos
 db.connect().then(() => {
     console.log('Connected to SQL Server');
 
@@ -42,12 +38,12 @@ db.connect().then(() => {
 
     // Configurar eventos de WebSocket
     io.on('connection', (socket) => {
-        console.log('Cliente conectado:', socket.id);
+        console.log('Connected client to chat:', socket.id);
 
         // Escuchar cuando un cliente se une a un chat
         socket.on('joinChat', (chatId) => {
             socket.join(`chat_${chatId}`);
-            console.log(`Cliente se unió al chat: chat_${chatId}`);
+            console.log(`Client joined chat: chat_${chatId}`);
         });
 
         // Escuchar y propagar mensajes enviados
@@ -71,7 +67,7 @@ db.connect().then(() => {
 
         // Desconexión del cliente
         socket.on('disconnect', () => {
-            console.log('Cliente desconectado:', socket.id);
+            console.log('Disconnected client:', socket.id);
         });
     });
 

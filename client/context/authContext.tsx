@@ -70,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const isAuthenticated: boolean = SessionManager.getToken() !== null;
 
     return (
-        <AuthContext.Provider value={{ token, user, login, logout, saveToken, isAuthenticated }}>
+        <AuthContext.Provider value={{ token, hostUser: user, login, logout, saveToken, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

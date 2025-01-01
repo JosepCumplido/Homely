@@ -17,6 +17,7 @@ export function userRoutes(db: ConnectionPool, client: Client): Router {
   const userController = new UserController(userRepository, homeRepository);
 
   router.get('/', authenticate, (req, res) => userController.getAllUsers(req, res));
+  router.get('/:username', (req, res) => userController.getUserByUsername(req, res));
   router.get('/:id', authenticate, (req, res) => userController.getUserById(req, res));
   router.post('/', authenticate, (req, res) => userController.createUser(req, res));
   router.put('/:username', authenticate, (req, res) => userController.updateUser(req, res));

@@ -1,6 +1,7 @@
 import {Home} from "shared/models/home";
 import {Client} from "@elastic/elasticsearch";
 import {SearchResponse} from "shared/data/searchRequest";
+import {SearchTotalHits} from "@elastic/elasticsearch/lib/api/types";
 
 export class HomeRepositoryElastic {
     private client: Client
@@ -160,10 +161,21 @@ export class HomeRepositoryElastic {
                     ...home,
                     imagesUrls: JSON.parse(home.imagesUrls as unknown as string),
                 }))
-                console.log('Homes search result:', parsedHomes);
-                return new SearchResponse(page, size, parsedHomes.length, parsedHomes)
+
+                // calculate has more pagination => load more button
+                let totalHits: number | undefined = undefined;
+                if (typeof response.hits.total === 'number') {
+                    totalHits = response.hits.total;
+                } else if (response.hits.total && 'value' in response.hits.total) {
+                    totalHits = response.hits.total.value;
+                }
+
+                let hasMore: boolean = false
+                if (typeof totalHits === 'number') hasMore = from + size < totalHits;
+
+                return new SearchResponse(page, size, parsedHomes.length, hasMore, parsedHomes)
             }
-            new Error("Bad formatting exception. Could not convert to type Home")
+            throw new Error("Bad formatting exception. Could not convert result to type Home")
         } catch (error) {
             console.error('Error retrieving all homes:', error);
             return [];

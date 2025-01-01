@@ -18,6 +18,7 @@ export class SearchResponse extends Response {
         public page: number,
         public size: number,
         public total: number,
+        public hasMore: boolean,
         public homes: Home[]
     ) {
         super();

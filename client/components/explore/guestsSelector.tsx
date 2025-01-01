@@ -1,5 +1,3 @@
-"use client";
-
 import {Minus, Plus} from "lucide-react";
 import {Button, Group, Input, NumberField} from "react-aria-components";
 

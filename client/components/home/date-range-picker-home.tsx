@@ -15,26 +15,26 @@ import {
 export function DateRangePickerHome({dateRange, onDateRangeChange}: { dateRange: DateRange, onDateRangeChange: (dateRange: DateRange) => void }) {
     return (
         <div>
-            <div className={"grid gap-2"}>
+            <div className={"grid gap-2 mb-1"}>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button
                             id="date"
                             variant={"default"}
-                            className={"w-full text-black border-black border-1 justify-start text-left font-normal h-6 !bg-transparent py-4"}
+                            className={"w-full text-black justify-start text-left font-normal h-6 !bg-transparent py-4 border-black border-1 rounded-lg overflow-hidden"}
                         >
                             <CalendarIcon color={"black"}/>
                             {dateRange?.from ? (
                                 dateRange.to ? (
-                                    <>
+                                    <span className={"overflow-hidden text-ellipsis"}>
                                         {format(dateRange.from, "LLL dd, y")} -{" "}
                                         {format(dateRange.to, "LLL dd, y")}
-                                    </>
+                                    </span>
                                 ) : (
-                                    format(dateRange.from, "LLL dd, y")
+                                    <span className={"overflow-hidden text-ellipsis"}> {format(dateRange.from, "LLL dd, y")} </span>
                                 )
                             ) : (
-                                <span>Pick a dateRange</span>
+                                <span className={"overflow-hidden text-ellipsis text-muted-foreground"}>Select a date</span>
                             )}
                         </Button>
                     </PopoverTrigger>

@@ -22,7 +22,7 @@ import {AddReservationRequest} from "shared/data/reservationsRequest";
 import {z} from "zod";
 import {useAuth} from "@/context/authContext";
 import {useRouter} from "next/navigation";
-import {getSessionDateRange} from "@/actions/getSessionDateRange";
+import {getSessionDateRange} from "@/actions/sessionStorage";
 
 const ReservationSchema = z.object({
     username: z.string(),
@@ -35,7 +35,7 @@ const ReservationSchema = z.object({
 
 type ReservationFormData = z.infer<typeof ReservationSchema>;
 
-export default function BookingForm() {
+export default function BookingForm({params}: { params: { id: string } }) {
     const {user, isAuthenticated} = useAuth();
     const router = useRouter();
 
@@ -50,9 +50,7 @@ export default function BookingForm() {
 
     useEffect(() => {
         const fetchHomeData = async () => {
-            const searchParams = new URLSearchParams(window.location.search);
-            const homeId = searchParams.get('home');
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/home/${homeId}`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/home/${params.id}`);
             if (res.ok) {
                 const data = await res.json();
                 setHome(data);
@@ -74,7 +72,15 @@ export default function BookingForm() {
     const toDateString = toDate.toLocaleDateString("es-ES");
 
     const guests: number = parseInt(sessionStorage.getItem("guests"))
-    const totalNights: number = differenceInDays(toDate, fromDate) - 1
+
+    let totalNights: number
+    try {
+        totalNights = differenceInDays(toDate, fromDate)
+        if (isNaN(totalNights)) totalNights = 0
+    } catch {
+        totalNights = 0
+    }
+
     const totalStayPrice : number = home.pricePerNight * totalNights;
     const nightPrice : number = home.pricePerNight * 0.90;
     const nightPriceTotal : number = totalStayPrice * 0.90;
@@ -91,8 +97,6 @@ export default function BookingForm() {
                 guests: guests,
                 totalPrice: totalStayPrice,
             }
-
-            console.log(`Request: ${JSON.stringify(request)}`)
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reservation`, {
                 method: "POST",
@@ -119,22 +123,22 @@ export default function BookingForm() {
     };
 
     return (
-        <div className="pb-24 h-full container mx-auto p-4 max-w-3xl min-h-screen overflow-y-scroll">
+        <div className="pb-24 h-full container mx-auto pt-6 overflow-y-scroll">
             <div className="mb-6">
-                <Link href="/" className="inline-flex items-center text-gray-600 hover:text-gray-900">
+                <Link href={`/home/${home.id}`} className="inline-flex items-center text-gray-600 hover:text-gray-900">
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Go back to searching
+                    Go back to details
                 </Link>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-5">
+            <div className="grid gap-16 md:grid-cols-5">
                 <div className="md:col-span-3">
                     <div className="mb-6">
                         <h2 className="text-xl font-semibold mb-4">Your reservation</h2>
                         <div className="grid gap-4">
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <p className="font-medium">Dates</p>
+                                    <p className="font-bold">Dates</p>
                                     <p className="text-sm text-gray-600">{fromDateString} - {toDateString}</p>
                                 </div>
                                 <Button variant="outline" size="sm" className={"cursor-not-allowed"}>
@@ -143,7 +147,7 @@ export default function BookingForm() {
                             </div>
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <p className="font-medium">Guests</p>
+                                    <p className="font-bold">Guests</p>
                                     <p className="text-sm text-gray-600">{guests} guests</p>
                                 </div>
                                 <Button variant="outline" size="sm" className={"cursor-not-allowed"}>
@@ -160,7 +164,7 @@ export default function BookingForm() {
                         console.log('Form submitted')
                     }}>
                         <div className="mb-6">
-                            <h2 className="text-xl font-semibold mb-4">Elige cómo quieres pagar</h2>
+                            <h2 className="text-xl font-semibold mb-4">Chose your payment method</h2>
                             <RadioGroup defaultValue="full">
                                 <div className="flex items-center space-x-2 p-4 border rounded-lg mb-2">
                                     <RadioGroupItem value="full" id="full" />
@@ -223,15 +227,15 @@ export default function BookingForm() {
 
                 <div className="md:col-span-2">
                     <Card className="sticky top-4">
-                        <CardContent className="p-4">
+                        <CardContent className="p-8">
                             <div className="flex gap-4 mb-4">
                                 {(home.imagesUrls.length > 0 && home.imagesUrls[0] != '') ? (
                                     <Image
                                         src={`/uploads/${home.imagesUrls[0]}`}
                                         alt="Property"
-                                        width={100}
-                                        height={100}
-                                        className="rounded-lg object-cover"
+                                        width={540}
+                                        height={720}
+                                        className="rounded-lg object-cover w-28 h-28"
                                     />
                                 ) : (
                                     <Image src={`/uploads/default_image.webp`} alt={"Card image"} width={540}
@@ -239,11 +243,12 @@ export default function BookingForm() {
                                            className={"object-cover w-full h-full rounded-lg"} priority/>
                                 )}
 
-                                <div className={"justify-end"}>
-                                    <h3 className="font-medium">{home.city}, {home.country}</h3>
-                                    <div className="flex justify-end w-full gap-1 text-sm">
+                                <div>
+                                    <h3 className="font-bold">{home.city}, {home.country}</h3>
+                                    <p>Entire rental unit</p>
+                                    <div className="flex w-full gap-1 text-sm">
                                         <Star className="h-4 w-4 fill-current" />
-                                        <span>{home.score ? (home.score) : ("New")}</span>
+                                        <span className="font-bold">{home.score ? (home.score) : ("New")}</span>
                                     </div>
                                 </div>
                             </div>

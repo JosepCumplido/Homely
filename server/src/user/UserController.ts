@@ -41,6 +41,27 @@ export class UserController {
         }
     }
 
+    async getUserByUsername(req: Request, res: Response): Promise<void> {
+        console.log("aqui")
+        const {username} = req.params;
+
+        try {
+            if (!username) {
+                res.status(400).json({error: "Username is required"});
+            }
+
+            const user: User | null = await this.userRepository.findByUsername(username);
+            if (!user) {
+                res.status(404).json({error: "User not found"});
+            }
+            console.log(`User by username: ${JSON.stringify(user)}`)
+            res.json(user)
+        } catch (error) {
+            console.error("Error retrieving user:", error);
+            res.status(500).json({error: "Error retrieving user"});
+        }
+    }
+
     async createUser(req: Request, res: Response): Promise<void> {
         try {
             const newUser = req.body;
@@ -68,26 +89,6 @@ export class UserController {
             res.send('User deleted');
         } catch (err) {
             res.status(500).send('Error deleting user');
-        }
-    }
-
-    async getUserByUsername(req: Request, res: Response): Promise<Response> {
-        const {username} = req.params;
-
-        try {
-            if (!username) {
-                return res.status(400).json({error: "Username is required"});
-            }
-
-            const user = await this.userRepository.findByUsername(username);
-            if (!user) {
-                return res.status(404).json({error: "User not found"});
-            }
-
-            return res.json(user)
-        } catch (error) {
-            console.error("Error retrieving user:", error);
-            return res.status(500).json({error: "Error retrieving user"});
         }
     }
 
