@@ -5,12 +5,12 @@ export class HomeRequest {
         public hostUsername: string,
         public city: string,
         public country: string,
-        public imagesUrls: string,
-        public pricePerNight: number,
+        public imagesUrls: string[],
+        public pricePerNight: string,
         public features: string,
         public amenities: string,
         public categories: string,
-        public maxGuests: number,
+        public maxGuests: string,
     ) {}
 }
 

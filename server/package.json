@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon src/app.ts",
+    "backend_dev": "nodemon src/app.ts",
     "build": "npx tsc",
     "start": "nodemon src/app.ts"
   },

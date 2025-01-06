@@ -28,7 +28,7 @@ export function useHomeData(id: string): HomeData {
                     const userData = await response.json();
                     setHostUser(userData);
                 })
-                .catch((err) => setError(err))
+                .catch((error) => setError(error))
                 .finally(() => setIsLoadingUser(false));
         }
     }, [home]);

@@ -10,12 +10,10 @@ import {HomeDescription} from "@/app/(pages)/home/[id]/HomeDescription";
 export default function HomePage({params}: { params: { id: string } }) {
     const {home, hostUser, isLoading, error} = useHomeData(params.id)
 
-    if (error) {
-        return <p>Error: {error.message}</p>
-    }
+    if (error) return <p>Error: {error.message}</p>
 
     if (isLoading) {
-        // Page Skeleton
+        // TODO Page Skeleton
         return <p>Loading...</p>
     }
 

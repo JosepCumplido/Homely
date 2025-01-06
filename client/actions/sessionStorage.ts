@@ -29,8 +29,12 @@ const defaultSessionGuestsNumber = 2
 
 export function getSessionGuests(): number {
     try {
-        return Number(sessionStorage.getItem(sessionGuestsName))
+        const guests = parseInt(sessionStorage.getItem(sessionGuestsName))
+        if (isNaN(guests) || guests < 1) throw new Error("Invalid guests number")
+        console.log("Guests: " + guests)
+        return guests
     } catch {
+        console.log("Default session number: " + defaultSessionGuestsNumber)
         return defaultSessionGuestsNumber
     }
 }

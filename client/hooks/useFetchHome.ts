@@ -5,6 +5,7 @@ import {Home} from 'shared/models/home'
 export const useFetchHome = (id: string) => {
     const [home, setHome] = useState<Home>()
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/home/${id}`, {cache: 'no-store'})
@@ -12,12 +13,13 @@ export const useFetchHome = (id: string) => {
                 setHome(await res.json())
             })
             .catch((error) => {
-                console.log(error)
+                setError(error)
+                console.log("Error fetching home: ", error)
             })
             .finally(() =>
                 setIsLoading(false)
             )
     }, [])
 
-    return { home, isLoadingHome: isLoading }
+    return { home, isLoadingHome: isLoading, homeError: error }
 }

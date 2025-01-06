@@ -5,6 +5,7 @@ import {Home} from "shared/models/home";
 import {Country} from "shared/models/country";
 import {SearchRequest, SearchResponse} from 'shared/data/searchRequest';
 import {HomeRequest, HomeResponse} from 'shared/data/homeRequest';
+import {isArray} from "node:util";
 
 export class HomeController {
     private homeRepository: HomeRepository;
@@ -289,13 +290,13 @@ export class HomeController {
             hostUsername: request.hostUsername,
             city: request.city,
             country: request.country,
-            imagesUrls: request.imagesUrls.split(","),
-            pricePerNight: request.pricePerNight,
+            imagesUrls: request.imagesUrls,
+            pricePerNight: parseInt(request.pricePerNight),
             score: null,
             features: request.features.split(","),
             amenities: request.amenities.split(","),
             categories: request.categories.split(","),
-            maxGuests: request.maxGuests
+            maxGuests: parseInt(request.maxGuests)
         }
 
         let userCreated: Boolean;
@@ -311,6 +312,7 @@ export class HomeController {
                 home.id = insertedValue?.id
 
                 try {
+                    console.log(`Is array: ${Array.isArray(home.imagesUrls)}`)
                     await this.homeRepositoryElastic.createHome(home);
                     userCreatedElastic = true
                 } catch (error) {

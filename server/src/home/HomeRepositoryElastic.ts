@@ -157,10 +157,6 @@ export class HomeRepositoryElastic {
             let homes: Home[] = []
             if (body as Home[]) {
                 homes = body as Home[]
-                const parsedHomes = homes.map((home) => ({
-                    ...home,
-                    imagesUrls: JSON.parse(home.imagesUrls as unknown as string),
-                }))
 
                 // calculate has more pagination => load more button
                 let totalHits: number | undefined = undefined;
@@ -173,7 +169,7 @@ export class HomeRepositoryElastic {
                 let hasMore: boolean = false
                 if (typeof totalHits === 'number') hasMore = from + size < totalHits;
 
-                return new SearchResponse(page, size, parsedHomes.length, hasMore, parsedHomes)
+                return new SearchResponse(page, size, homes.length, hasMore, homes)
             }
             throw new Error("Bad formatting exception. Could not convert result to type Home")
         } catch (error) {
