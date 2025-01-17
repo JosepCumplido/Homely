@@ -104,52 +104,46 @@ export default function CreateAddPage() {
     }
 
     return (
-        <div className="container mx-auto py-10">
-            <Card className="w-full max-w-4xl mx-auto">
-                <CardHeader>
-                    <CardTitle className="text-3xl font-bold text-center">Create a New Accommodation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <form id="form" className="space-y-8" onSubmit={handleSubmit}>
-                        <MainInformation city={city} country={country} onLocationChange={onLocationChange}/>
+        <div className={"flex-1 pb-20 px-20 pt-10 space-y-8 relative"}>
+            <h2 className={"font-bold text-2xl"}>Create a New Accommodation</h2>
+            <form id="form" className="space-y-8" onSubmit={handleSubmit}>
+                <MainInformation city={city} country={country} onLocationChange={onLocationChange}/>
 
-                        <Separator/>
+                <Separator/>
 
-                        <CategorySelector
-                            categories={categories}
-                            selectedCategories={selectedCategoriesList}
-                            onCategoryChange={(category) => setSelectedCategoriesList(prev => prev.includes(category) ? prev.filter(item => item !== category) : [...prev, category])}
-                        />
+                <CategorySelector
+                    categories={categories}
+                    selectedCategories={selectedCategoriesList}
+                    onCategoryChange={(category) => setSelectedCategoriesList(prev => prev.includes(category) ? prev.filter(item => item !== category) : [...prev, category])}
+                />
 
-                        <Separator/>
+                <Separator/>
 
-                        <FeaturesAndAmenities
-                            featureTypes={featureTypes}
-                            amenityTypes={amenityTypes}
-                            selectedFeatures={selectedFeaturesList}
-                            selectedAmenities={selectedAmenitiesList}
-                            onFeatureClick={(feature) => setSelectedFeaturesList(prev =>
-                                prev.includes(feature) ? prev.filter(item => item !== feature) : [...prev, feature]
-                            )}
-                            onAmenityClick={(amenity) => setSelectedAmenitiesList(prev =>
-                                prev.includes(amenity) ? prev.filter(item => item !== amenity) : [...prev, amenity]
-                            )}
-                        />
+                <FeaturesAndAmenities
+                    featureTypes={featureTypes}
+                    amenityTypes={amenityTypes}
+                    selectedFeatures={selectedFeaturesList}
+                    selectedAmenities={selectedAmenitiesList}
+                    onFeatureClick={(feature) => setSelectedFeaturesList(prev =>
+                        prev.includes(feature) ? prev.filter(item => item !== feature) : [...prev, feature]
+                    )}
+                    onAmenityClick={(amenity) => setSelectedAmenitiesList(prev =>
+                        prev.includes(amenity) ? prev.filter(item => item !== amenity) : [...prev, amenity]
+                    )}
+                />
 
-                        <div>
-                            <h2 className="text-xl font-semibold mb-4">Photos</h2>
-                            <PhotoUploader onPhotosChange={handlePhotosChange}/>
-                        </div>
+                <div>
+                    <h2 className="text-xl font-semibold mb-4">Photos</h2>
+                    <PhotoUploader onPhotosChange={handlePhotosChange}/>
+                </div>
 
-                        <div className="flex justify-end">
-                            <Button type="submit" className="w-full md:w-auto" disabled={uploading}>
-                                {uploading ? 'Publishing...' : 'Publish'}
-                            </Button>
-                        </div>
-                    </form>
-                </CardContent>
-            </Card>
+                <div className="flex justify-end">
+                    <Button type="submit" className="w-full md:w-auto" disabled={uploading}>
+                        {uploading ? 'Publishing...' : 'Publish'}
+                    </Button>
+                </div>
+            </form>
         </div>
-    );
+    )
+        ;
 }
-

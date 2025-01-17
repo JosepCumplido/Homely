@@ -9,11 +9,6 @@ export class HomeRepository {
         this.db = db;
     }
 
-    /*async findAll(): Promise<Home[]> {
-        const result = await this.db.request().query('SELECT * FROM [Home]');
-        return result.recordset;
-    }*/
-
     async findById(id: number): Promise<Home | null> {
         try {
             const result = await this.db.request()
@@ -57,7 +52,14 @@ export class HomeRepository {
                     OUTPUT INSERTED.*
                     VALUES (@city, @country, @imagesUrls, @pricePerNight, @score, @features, @amenities, @categories, @hostUsername, @maxGuests)
                 `);
-            return result.recordset[0]
+
+            const insertedHome = result.recordset[0];
+            insertedHome.imagesUrls = JSON.parse(insertedHome.imagesUrls);
+            insertedHome.features = JSON.parse(insertedHome.features);
+            insertedHome.amenities = JSON.parse(insertedHome.amenities);
+            insertedHome.categories = JSON.parse(insertedHome.categories);
+
+            return insertedHome
         } catch (error) {
             console.log("Error inserting home: " + error);
             return null

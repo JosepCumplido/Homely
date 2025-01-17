@@ -210,7 +210,7 @@ export class HomeController {
         }
 
         // Funció per generar un objecte aleatori `Home`
-        function generateRandomHome() {
+        function generateRandomHome(): Home {
             const countryIndex = randomInt(0, europeanCountries.length - 1);
             const country = europeanCountries[countryIndex];
             const city = europeanCountries[countryIndex].cities[randomInt(0, europeanCountries[countryIndex].cities.length - 1)];
@@ -218,19 +218,19 @@ export class HomeController {
             return {
                 id: null,
                 hostUsername: "josep",
-                imagesUrls: ["post_1_1.webp", "post_1_2.webp", "post_1_3.webp", "post_1_4.webp"],
                 city: city,
                 country: country.name,
-                categories: randomSelection(categories, randomInt(1, 3)),
+                imagesUrls: ['post_1_1.webp', 'post_1_2.webp', 'post_1_3.webp', 'post_1_4.webp'],
                 pricePerNight: randomInt(50, 500),
                 score: parseFloat((Math.random() * 5).toFixed(1)),
                 features: featureTypes.flatMap(ft => randomSelection(ft.features, randomInt(1, ft.features.length))),
                 amenities: amenityTypes.flatMap(at => randomSelection(at.amenities, randomInt(1, at.amenities.length))),
+                categories: randomSelection(categories, randomInt(1, 3)),
                 maxGuests: randomInt(1, 16),
-            };
+            } as Home;
         }
 
-        const homesNumber = 30
+        const homesNumber = 1
         try {
             const homes: Home[] = []
             for (let i = 0; i < homesNumber; i++) {
@@ -299,14 +299,9 @@ export class HomeController {
             maxGuests: parseInt(request.maxGuests)
         }
 
-        let userCreated: Boolean;
-        let userCreatedElastic: Boolean = false;
-
         let insertedValue: Home | null = null;
         try {
             insertedValue = await this.homeRepository.create(home);
-            userCreated = true
-            console.log("test")
             if (insertedValue != null && insertedValue.id != undefined) {
                 console.log(`inserted id: ${insertedValue.id}`)
                 home.id = insertedValue?.id
@@ -314,18 +309,14 @@ export class HomeController {
                 try {
                     console.log(`Is array: ${Array.isArray(home.imagesUrls)}`)
                     await this.homeRepositoryElastic.createHome(home);
-                    userCreatedElastic = true
                 } catch (error) {
-                    userCreatedElastic = false
-                    res.status(500).send(`Error creating home elastic: ${error}`);
+                    return res.status(500).send(`Error creating home elastic: ${error}`);
                 }
             }
         } catch (err) {
-            userCreated = false
-            res.status(500).send(`Error creating home: ${err}`);
+            return res.status(500).send(`Error creating home: ${err}`);
         }
 
-
-        if (userCreated && userCreatedElastic) return res.status(201).json(new HomeResponse(insertedValue))
+        return res.status(201).json(new HomeResponse(insertedValue))
     }
 }

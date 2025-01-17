@@ -17,7 +17,7 @@ export class HomeRepositoryElastic {
                 size: 1000,
                 query: {match_all: {}}
             });
-            const homes = response.hits.hits.map((hit) => hit._source);
+            const homes: Home[] = response.hits.hits.map((hit) => hit._source) as Home[];
 
             console.log('All Homes:', homes);
             return homes;

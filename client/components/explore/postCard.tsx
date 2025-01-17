@@ -18,6 +18,7 @@ import Link from "next/link";
 
 export function PostCard({home}: { home: Home }) {
     const [isFavorite, setIsFavorite] = useState(false);
+
     return (
         <div className={"relative flex flex-col rounded-lg space-y-1 group"}>
             <div className="relative aspect-[27/25.5] overflow-hidden rounded-lg mb-1">
