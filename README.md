@@ -233,11 +233,13 @@ request body: {}
 
 This will generate 30 random home listings.
 
-3. Navigate to `.\server\package.json` and run `backend_dev` script.
+To build and run the project:
 
-4. Navigate to `.\client\package.json` and run `frontend_dev` script.
+1. Navigate to `.\server\package.json` and run `build` script, once it finishes, run `start` script.
 
-5. Open a browser and navigate to `http://localhost:3000`
+2. Navigate to `.\client\package.json` and run `build` script, once it finishes, run `start` script.
+
+3. Open a browser and navigate to `http://localhost:3000`
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -256,4 +258,3 @@ This will generate 30 random home listings.
 [ElasticSearch]: https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white
 [Elastic-url]: https://www.elastic.co/
 [SqlServer]: https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white
-
