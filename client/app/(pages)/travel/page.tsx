@@ -67,7 +67,7 @@ export default function TravelHistory2() {
                 <h2 className={"font-bold text-2xl w-1/2 m-auto relative"}>
                     Upcoming reservation
                     <Link
-                        href={"/public"}
+                        href={"/"}
                         className={
                             "absolute -top-16 -left-4 font-normal transition-all duration-200 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
                         }
@@ -79,7 +79,7 @@ export default function TravelHistory2() {
                     {upcomingReservation != undefined ? (
                         <TravelCard upcomingReservation={upcomingReservation}/>
                     ) : (
-                        <Link href={"/public"} className={"block w-1/2 m-auto"}>
+                        <Link href={"/"} className={"block w-1/2 m-auto"}>
                             <Button>Book your next dream home</Button>
                         </Link>
                     )}
