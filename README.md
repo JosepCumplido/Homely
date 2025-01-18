@@ -245,18 +245,37 @@ To build and run the project:
 3. Open a browser and navigate to `http://localhost:3000`
 
 
-### Project Screenshots
+## Project Screenshots
 
+### Listings page
 ![Homely](https://github.com/user-attachments/assets/acd9008b-63cc-4f76-82d7-41118b4f7434)
+
+### Search filters
 ![Homely-search](https://github.com/user-attachments/assets/89149610-7d66-4c78-a7f7-45b6fbe85f19)
+
+### Property details
 ![Homely-detail](https://github.com/user-attachments/assets/750dd277-7c18-4c57-9e49-3d5c3b27fbfa)
-![Homely-login](https://github.com/user-attachments/assets/bbbdbf37-adfa-4e79-89d2-e11407a65d0a)
+
+### Signup page
 ![Homely-signup](https://github.com/user-attachments/assets/be5e26ed-4eda-484c-a22e-24a443d33b45)
+
+### Login page
+![Homely-login](https://github.com/user-attachments/assets/bbbdbf37-adfa-4e79-89d2-e11407a65d0a)
+
+### User profile
 ![Homely-profile](https://github.com/user-attachments/assets/abcfe4ea-1c2e-473e-879b-ccc7747b92c4)
+
+### Change user password
 ![Homely-password](https://github.com/user-attachments/assets/b78ba181-f6ce-4ce7-bc17-22bcf6043ce8)
+
+### Host a property
 ![Homely-host](https://github.com/user-attachments/assets/bf74ee85-03c8-4242-a1cb-40ed666442bd)
-![Homely-travel](https://github.com/user-attachments/assets/733c5714-dbb4-428b-bcc8-99d47c5d0cb2)
+
+### Book a reservation
 ![Homely-reservation](https://github.com/user-attachments/assets/c19d93a2-9c53-4546-99a6-f7b475df077d)
+
+### Your reservations
+![Homely-travel](https://github.com/user-attachments/assets/733c5714-dbb4-428b-bcc8-99d47c5d0cb2)
 
 
 
