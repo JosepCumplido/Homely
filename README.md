@@ -63,7 +63,8 @@ docker pull mcr.microsoft.com/mssql/server
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Password_123#" -p 1433:1433 --name sql_server_container -d mcr.microsoft.com/mssql/server
 ```
 
-Run the following DDL queries
+Run the following DDL queries on a database client (I used Intellij database plugin).
+
 ```sh
 create table dbo.Chat
 (
@@ -167,7 +168,7 @@ docker volume create elasticsearch_data
 docker run -d --name elasticsearch-container -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms1g -Xmx1g" -e "xpack.security.enabled=false" -e "ELASTIC_PASSWORD=Password_123#" -v elasticsearch_data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:8.10.2
 ```
 
-Now you can connect to ElasticDB with `host: localhost`, `user: elastic`, `password: Password_123#`
+Now you can connect to ElasticDB with `host: localhost`, `user: elastic`, `password: Password_123#`. I used the [EDQL Intellij plugin](https://plugins.jetbrains.com/plugin/16364-elasticsearch-query--edql)
 
 Use `Postman` to initialize the database schema:
 
