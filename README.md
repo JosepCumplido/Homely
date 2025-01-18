@@ -5,7 +5,7 @@ This project was generated using [Next.js](Next-url) version 14.3.0-canary.0
 ## About the project
 
 Homely is a full-stack rental housing portal built with React, Next.js and Node.js. 
-I built this project to explore the MERN stack focusing on Next.js and ElasticSearch database. 
+I built this project as a first approach to explore the MERN stack, focusing on Next.js and ElasticSearch database. 
 
 Enhanced the frontend with TypeScript, Tailwind, and Shadcn components. 
 
@@ -63,7 +63,8 @@ docker pull mcr.microsoft.com/mssql/server
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Password_123#" -p 1433:1433 --name sql_server_container -d mcr.microsoft.com/mssql/server
 ```
 
-Run the following DDL queries
+Run the following DDL queries on a database client (I used Intellij database plugin).
+
 ```sh
 create table dbo.Chat
 (
@@ -167,7 +168,7 @@ docker volume create elasticsearch_data
 docker run -d --name elasticsearch-container -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms1g -Xmx1g" -e "xpack.security.enabled=false" -e "ELASTIC_PASSWORD=Password_123#" -v elasticsearch_data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:8.10.2
 ```
 
-Now you can connect to ElasticDB with `host: localhost`, `user: elastic`, `password: Password_123#`
+Now you can connect to ElasticDB with `host: localhost`, `user: elastic`, `password: Password_123#`. I used the [EDQL Intellij plugin](https://plugins.jetbrains.com/plugin/16364-elasticsearch-query--edql)
 
 Use `Postman` to initialize the database schema:
 
@@ -232,11 +233,13 @@ request body: {}
 
 This will generate 30 random home listings.
 
-3. Navigate to `.\server\package.json` and run `backend_dev` script.
+To build and run the project:
 
-4. Navigate to `.\client\package.json` and run `frontend_dev` script.
+1. Navigate to `.\server\package.json` and run `build` script, once it finishes, run `start` script.
 
-5. Open a browser and navigate to `http://localhost:3000`
+2. Navigate to `.\client\package.json` and run `build` script, once it finishes, run `start` script.
+
+3. Open a browser and navigate to `http://localhost:3000`
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -255,4 +258,3 @@ This will generate 30 random home listings.
 [ElasticSearch]: https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white
 [Elastic-url]: https://www.elastic.co/
 [SqlServer]: https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white
-
