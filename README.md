@@ -17,7 +17,7 @@ Key features of this application include property listings, search functionality
 
 ### Built With
 
-[![React][React.js]][React-url] [![Next][Next.js]][Next-url] [![Node][Node.js]][Node-url] [![Elastic Search][ElasticSearch]][Elastic-url] [![Typescript][Typescript]][Typescript-url] [![Tailwind][Tailwind]][Tailwind-url] ![Sql Server][SqlServer]
+[![React][React.js]][React-url] [![Next][Next.js]][Next-url] [![Node][Node.js]][Node-url] [![Elastic Search][ElasticSearch]][Elastic-url] [![Docker][Docker]][Docker-url] [![Typescript][Typescript]][Typescript-url] [![Tailwind][Tailwind]][Tailwind-url] ![Sql Server][SqlServer]
 
 ## Run the project
 
@@ -295,3 +295,5 @@ To build and run the project:
 [ElasticSearch]: https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white
 [Elastic-url]: https://www.elastic.co/
 [SqlServer]: https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white
+[Docker]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/
