@@ -5,7 +5,6 @@ import {Home} from "shared/models/home";
 import {Country} from "shared/models/country";
 import {SearchRequest, SearchResponse} from 'shared/data/searchRequest';
 import {HomeRequest, HomeResponse} from 'shared/data/homeRequest';
-import {isArray} from "node:util";
 
 export class HomeController {
     private homeRepository: HomeRepository;
@@ -17,13 +16,6 @@ export class HomeController {
     }
 
     async getAllHomes(req: Request, res: Response): Promise<void> {
-        /*try {
-            const homes = await this.homeRepository.findAll();
-            res.json(homes);
-        } catch (err) {
-            res.status(500).send('Error retrieving homes');
-        }*/
-
         try {
             const response = await this.homeRepositoryElastic.getAllHomes();
             res.json(response);
@@ -63,14 +55,6 @@ export class HomeController {
     }
 
     async updateHome(req: Request, res: Response): Promise<void> {
-        /*try {
-            const updatedHome = req.body;
-            await this.homeRepository.update(updatedHome);
-            res.send('Home updated');
-        } catch (err) {
-            res.status(500).send('Error updating home');
-        }*/
-
         const {index, id} = req.params;
         try {
             const response = await this.homeRepositoryElastic.updateHome(id, req.body);
@@ -81,13 +65,6 @@ export class HomeController {
     }
 
     async deleteHome(req: Request, res: Response): Promise<void> {
-        /*try {
-            await this.homeRepository.delete(Number(req.params.id));
-            res.send('Home deleted');
-        } catch (err) {
-            res.status(500).send('Error deleting home');
-        }*/
-
         const {id} = req.params;
         try {
             const response = await this.homeRepositoryElastic.deleteHome(id);
@@ -230,7 +207,7 @@ export class HomeController {
             } as Home;
         }
 
-        const homesNumber = 1
+        const homesNumber = 30
         try {
             const homes: Home[] = []
             for (let i = 0; i < homesNumber; i++) {
