@@ -5,7 +5,7 @@ This project was generated using [Next.js](Next-url) version 14.3.0-canary.0
 ## About the project
 
 Homely is a full-stack rental housing portal built with React, Next.js and Node.js. 
-I built this project to explore the MERN stack focusing on Next.js and ElasticSearch database. 
+I built this project as a first approach to explore the MERN stack, focusing on Next.js and ElasticSearch database. 
 
 Enhanced the frontend with TypeScript, Tailwind, and Shadcn components. 
 
